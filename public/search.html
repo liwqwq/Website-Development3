@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Charity Events</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">CharityEvents</a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="search.html" class="nav-link active">Search Events</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Search Charity Events</h1>
+            <p class="subtitle">Find events that match your interests</p>
+        </div>
+
+        <div class="search-form-container">
+            <form id="searchForm" class="search-form">
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date">
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" placeholder="Enter city or venue">
+                </div>
+                
+                <div class="form-group">
+                    <label for="category">Event Category</label>
+                    <select id="category" name="category">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Search Events</button>
+                    <button type="button" id="clearBtn" class="btn-secondary">Clear Filters</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="search-results">
+            <h2 id="results-count">Search Results</h2>
+            
+            <div class="loading-spinner" id="loading-spinner">
+                <p>Searching for events...</p>
+            </div>
+
+            <div id="search-results" class="events-list">
+                <div class="search-placeholder">
+                    <p>Use the search form above to find charity events</p>
+                </div>
+            </div>
+
+            <div id="no-results" class="no-results" style="display: none;">
+                <h3>No Events Found</h3>
+                <p>Try adjusting your search criteria</p>
+            </div>
+        </div>
+
+        <div id="error-message" class="error-message" style="display: none;"></div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 CharityEvents. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="search.js"></script>
+</body>
+</html>

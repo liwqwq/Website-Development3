@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charity Events - Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- navigation bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-link" id="adminLoginBtn">Admin Login</a>
+            <a href="index.html" class="nav-logo">CharityEvents</a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="search.html" class="nav-link">Search Events</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page body -->
+    <div class="container">
+        <header class="page-header">
+            <h1>City Charity Events</h1>
+            <p class="subtitle">Connecting charitable organizations with caring community members</p>
+        </header>
+
+        <section class="about-section">
+            <h2>About Our Mission</h2>
+            <p>We are a non-profit platform dedicated to helping charitable organizations showcase their fundraising events and enabling more people to participate in meaningful causes.</p>
+        </section>
+
+        <section class="events-section">
+            <h2>Upcoming Events</h2>
+            <div class="loading-spinner" id="loading-spinner">
+                <p>Loading events...</p>
+            </div>
+
+            <div id="events-list" class="events-list"></div>
+
+            <div class="no-events" id="no-events" style="display: none;">
+                <h3>No Events Found</h3>
+                <p>Check back later for new charity events</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Admin Login -->
+    <div id="adminLoginModal" class="modal">
+        <div class="modal-content">
+            <h2>Admin Login</h2>
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label for="adminUsername">Username</label>
+                    <input type="text" id="adminUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Login</button>
+                    <button type="button" class="btn-secondary" id="cancelLogin">Cancel</button>
+                </div>
+            </form>
+            <p id="loginError" class="error-message" style="display:none;">Invalid username or password.</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 CharityEvents. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        const adminLoginBtn = document.getElementById('adminLoginBtn');
+        const adminLoginModal = document.getElementById('adminLoginModal');
+        const cancelLogin = document.getElementById('cancelLogin');
+        const adminLoginForm = document.getElementById('adminLoginForm');
+        const loginError = document.getElementById('loginError');
+
+        adminLoginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            adminLoginModal.style.display = 'block';
+        });
+
+        cancelLogin.addEventListener('click', () => {
+            adminLoginModal.style.display = 'none';
+            loginError.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === adminLoginModal) {
+                adminLoginModal.style.display = 'none';
+                loginError.style.display = 'none';
+            }
+        });
+
+        adminLoginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('adminUsername').value.trim();
+            const password = document.getElementById('adminPassword').value.trim();
+
+            try {
+                const res = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    adminLoginModal.style.display = 'none';
+                    window.location.href = 'admin.html';
+                } else {
+                    loginError.style.display = 'block';
+                }
+            } catch (err) {
+                console.error('Login request error:', err);
+                loginError.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

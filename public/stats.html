@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Statistics</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Event Statistics</h1>
+    <canvas id="categoryChart"></canvas>
+  </div>
+
+  <script>
+    const token = localStorage.getItem('admin_token');
+    fetch('/api/stats/categories', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    })
+    .then(res => res.json())
+    .then(data => {
+      const ctx = document.getElementById('categoryChart');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: data.map(d => d.category_name),
+          datasets: [{
+            label: 'Number of Events',
+            data: data.map(d => d.event_count)
+          }]
+        }
+      });
+    });
+  </script>
+</body>
+</html>
